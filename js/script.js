@@ -1,36 +1,53 @@
-// Variable that will hold the random quote.
-var randomQuote;
+// event listener to respond to "Show another quote" button clicks
+// when user clicks anywhere on the button, the "printQuote" function is called
+document.getElementById('loadQuote').addEventListener("click", printQuote, false);
+
+// Declared variables that will hold a string property and and empty array.
+var message = '';
+var viewedQuotes =[];
+
+function print(quote) {
+	var outputDiv = document.getElementById('quote-box');
+	outputDiv.innerHTML = quote;
+}
 
 // Function that will go through the quotes array and return the random quote value.
 function getRandomQuote() {
-   randomQuote = quotes[ Math.floor(Math.random() * quotes.length) ];
-   for (var i = 0; i < quotes.length ; i += 1) {
-    quotes[i].quote;
-    quotes[i].source;
-    quotes[i].tags;
-  }
-  return randomQuote;
-};
+   var randomQuote = Math.floor(Math.random() * quotes.length);
 
-// Function that will print out the random quote and link it to the HTML file.
-function printQuote() {
-  var clickQuote = getRandomQuote();
-  var printText = '<p class="quote">' + clickQuote.quote + '</p>' + '<p class="source">' + clickQuote.source + '</p>' + '<p class="source">' + clickQuote.tags + '</p>';
-  document.getElementById('quote-box').innerHTML = printText;
-};
+   var splicedQuote = quotes.splice(randomQuote, 1)[0];
+ 	 viewedQuotes.push(splicedQuote);
+ 	  if ( quotes.length === 0 ) {
+ 		   quotes = viewedQuotes;
+ 		    viewedQuotes = [];
+ 	    }
+  // this will log the quote that has been spliced on the console.
+  console.log(splicedQuote);
+ 	return splicedQuote;
+}
 
 // Function that changes background color to a random color
-function random_bg_color() {
+function randomBgColor() {
+    var bgColor;
     var x = Math.floor(Math.random() * 256);
     var y = Math.floor(Math.random() * 256);
     var z = Math.floor(Math.random() * 256);
     var bgColor = "rgb(" + x + "," + y + "," + z + ")";
- console.log(bgColor);
 
-    document.body.style.background = bgColor;
-    }
+    return bgColor;
+  }
 
-
+  // Function that will print out the random quote and link it to the HTML file.
+  function printQuote() {
+	var quotes = getRandomQuote();
+	message ='<p class="quote">' + quotes.quote + '</p>';
+	message  += '<p class="source">' + quotes.source;
+	print(message);
+	//Generate random color
+	randomBgColor();
+	//Update background with new random color
+	document.getElementById('bgcolor').style.backgroundColor = randomBgColor();
+}
 
 // Array of quotes.
 var quotes = [
@@ -56,15 +73,12 @@ var quotes = [
     quote : "Dude, Suckin' at something is the first step at being sorta good at something.",
     source : 'Jake (Adventure Time)',
     tags : 'Humor'
+  },
+
+  {
+    quote : 'Life is really simple, but we insist on making it complicated.',
+    source : 'Confucius',
+    tags : 'Philosophy'
   }
+
 ];
-
-
-
-// event listener to respond to "Show another quote" button clicks
-// when user clicks anywhere on the button, the "printQuote" function is called
-document.getElementById('loadQuote').addEventListener("click", printQuote, false);
-
-// event listener to respond to "Show another quote" button clicks
-// when user clicks anywhere on the button, the "random_bg_color" function is called
-document.getElementById('loadQuote').addEventListener("click", random_bg_color, false);
